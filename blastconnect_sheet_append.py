@@ -26,7 +26,7 @@ bat_order_dic = {
     "2327 Player": "a_6",
     "2328 Player": "a_7",
     "2329 Player": "a_8",
-    "2310 Player": "a_9",
+    "2330 Player": "a_9",
 }
 
 
@@ -162,6 +162,7 @@ def process_excel_file(uploaded_file):
                         )
                         # 試合以外を除外
                         data_df = data_df[data_df["スイング条件"]=="In Game"]
+                        print(data_df)
                         all_data.append(data_df)
 
             except Exception as sheet_error:
@@ -177,6 +178,7 @@ def process_excel_file(uploaded_file):
         if all_data:
             # すべてのデータを結合
             merged_df = pd.concat(all_data, ignore_index=True)
+            merged_df = merged_df[merged_df["スイング条件"]=="In Game"]
 
             # 日付でソート
             try:
