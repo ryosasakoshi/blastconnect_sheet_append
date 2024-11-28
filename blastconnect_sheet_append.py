@@ -5,6 +5,30 @@ import base64
 from datetime import datetime
 
 
+bat_order_dic = {
+    # 一塁側チームオーダー
+    "2302 Player": "h_1",
+    "2303 Player": "h_2",
+    "2304 Player": "h_3",
+    "2305 Player": "h_4",
+    "2306 Player": "h_5",
+    "2307 Player": "h_6",
+    "2308 Player": "h_7",
+    "2309 Player": "h_8",
+    "2310 Player": "h_9",
+    # 三塁側チームオーダー
+    "2322 Player": "a_1",
+    "2323 Player": "a_2",
+    "2324 Player": "a_3",
+    "2325 Player": "a_4",
+    "2326 Player": "a_5",
+    "2327 Player": "a_6",
+    "2328 Player": "a_7",
+    "2329 Player": "a_8",
+    "2310 Player": "a_9",
+}
+
+
 def make_unique_columns(columns):
     """
     重複する列名に連番を付けて一意にする関数
@@ -43,7 +67,6 @@ def process_excel_file(uploaded_file):
 
         # 処理状況を表示するプログレスバー
         progress_bar = st.progress(0)
-
 
         # 処理対象のシート名を取得（「Player」を含むシートのみ）
         sheet_names = [
@@ -132,8 +155,12 @@ def process_excel_file(uploaded_file):
 
                         data_df.columns = column_headers
 
-
                         data_df["元のシート名"] = sheet_name
+                        data_df["bat_order"] = data_df["元のシート名"].replace(
+                            bat_order_dic
+                        )
+                        # 試合以外を除外
+                        data_df = data_df[data_df["スイング条件"]=="In Game"]
                         all_data.append(data_df)
 
             except Exception as sheet_error:
