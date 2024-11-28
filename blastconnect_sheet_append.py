@@ -177,7 +177,6 @@ def process_excel_file(uploaded_file):
         if all_data:
             # すべてのデータを結合
             merged_df = pd.concat(all_data, ignore_index=True)
-            merged_df = merged_df[merged_df["スイング条件"]=="In Game"]
 
             # 日付でソート
             try:
